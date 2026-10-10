@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Placement System - Documentation | N. Bindu Sadhana 24D01A66M9</title>
+<style>
+body{font-family:Arial,sans-serif;line-height:1.6;margin:0;padding:0;background:#f5f7fb;color:#222}
+header{background:#12265a;color:white;padding:20px;text-align:center;position:sticky;top:0}
+nav{background:white;padding:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+nav a{color:#12265a;text-decoration:none;font-weight:bold;padding:5px 10px;border:1px solid #12265a;border-radius:5px;font-size:12px}
+.container{max-width:900px;margin:20px auto;background:white;padding:25px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+h2{color:#12265a;border-bottom:2px solid #12265a;padding-bottom:5px;margin-top:40px}
+.badge{padding:4px 10px;border-radius:12px;color:white;font-weight:bold}
+.green{background:#16a34a}.red{background:#dc2626}.yellow{background:#ca8a04}
+.card{border:1px solid #ddd;padding:15px;border-radius:8px;margin:10px 0;background:#fafafa}
+.live{background:#dcfce7;border:2px solid #16a34a;padding:15px;border-radius:8px;margin:15px 0}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#12265a;color:white}
+</style>
+</head>
+<body>
+<header>
+<h1>COLLEGE PLACEMENT MANAGEMENT SYSTEM</h1>
+<p>Documentation - N. Bindu Sadhana | 24D01A66M9 | AIML-C | St. Mary's Engineering College</p>
+<p>Live: https://college-placement-management-one.vercel.app | GitHub: bindusadhana238-droid/college-placement-management</p>
+</header>
+<nav>
+<a href="#cover">Cover</a><a href="#abstract">Abstract</a><a href="#intro">Intro</a><a href="#problem">Problem</a><a href="#design">Design</a><a href="#db">Database</a><a href="#execution">Execution</a><a href="#input">Input</a><a href="#output">Output</a><a href="#testing">Testing</a><a href="#conclusion">Conclusion</a>
+</nav>
+<div class="container">
+
+<div class="live">
+<strong>✅ LIVE LINKS FOR FACULTY VERIFICATION:</strong><br>
+🌐 Live Demo: <a href="https://college-placement-management-one.vercel.app" target="_blank">https://college-placement-management-one.vercel.app</a> (Production - Vercel)<br>
+💻 GitHub: <a href="https://github.com/bindusadhana238-droid/college-placement-management" target="_blank">github.com/bindusadhana238-droid/college-placement-management</a><br>
+🗄️ Database: MongoDB Atlas Cloud | Vercel: Production Build Successful
+</div>
+
+<h2 id="cover">COVER PAGE</h2>
+<p><b>ST. MARY'S ENGINEERING COLLEGE</b><br>Dept of CSE - B.Tech AIML<br><b>Project: COLLEGE PLACEMENT MANAGEMENT SYSTEM</b><br>MERN Stack with Vercel Deployment<br>Submitted By: N. BINDU SADHANA, Hall Ticket: 24D01A66M9, AIML-C<br>Academic Year: 2026-2027<br>Live: college-placement-management-one.vercel.app<br>GitHub: bindusadhana238-droid/college-placement-management</p>
+
+<h2 id="abstract">ABSTRACT</h2>
+<p>College Placement Management System is web-based app designed to digitize placement info. Traditional methods (Excel, WhatsApp, Email) lead to duplicate records, delayed updates, lack of real-time visibility into Selected/Rejected status.</p>
+<p>Proposed system uses MERN: MongoDB Atlas stores users, companies, applications; Express/Node provides RESTful APIs for JWT auth, company management, application tracking with status enum Applied/Selected/Rejected; React + Vite + Tailwind provides responsive UI deployed on Vercel at live link. Implements Student role (register, login, view jobs, apply, track status with color Green Selected, Red Rejected, Yellow Applied) and Admin role (post companies, view students, view applications, update status via Select/Reject). Flow Student Apply -> Admin Select/Reject -> Student sees real-time answers viva: Does project show if students selected or rejected? <b>YES through Applications status field.</b></p>
+
+<h2 id="intro">INTRODUCTION</h2>
+<p>Campus placement connects students with employers. Placement cell maintains records, manages visits, publishes JDs, handles deadlines, tracks applications, records outcomes selected/rejected. Manual management causes outdated inconsistent data. Purpose: Design, develop, deploy full-stack web app simplifying coordination, improving accessibility, providing clear visibility with real-time status. Scope: React + Vite + Tailwind frontend, Node/Express backend API, MongoDB Atlas with 3 collections (Users, Companies, Applications), student/admin workflows, company management, application submission, status tracking Applied/Selected/Rejected, deployment on Vercel with auto-deploy from GitHub, JWT + bcrypt, testing live.</p>
+
+<h2 id="problem">PROBLEM & OBJECTIVES</h2>
+<p><b>Problems:</b> Duplicate Excel, lost WhatsApp announcements, no centralized view of who applied where, no systematic Selected/Rejected display causing confusion, excessive coordinator time, no live portal.</p>
+<p><b>Objectives:</b> (1) Centralize data in Atlas (2) React UI for jobs (3) Admin maintains company records (4) Application tracking status Applied/Selected/Rejected (5) Admin Select/Reject buttons PUT API (6) Student real-time Green/Red/Yellow (7) Live on Vercel (8) Modular MERN maintainable.</p>
+
+<h2 id="design">SYSTEM DESIGN</h2>
+<p><b>Architecture:</b> Presentation: React Vite Tailwind + Router + Axios. API: Node Express + JWT middleware + RBAC. Data: MongoDB Atlas Users, Companies, Applications. Deployment: Vercel frontend auto-deploy + Atlas.</p>
+<p><b>Flow:</b> User -> React (Vercel) -> Axios + JWT -> Express API -> Mongoose -> Atlas -> JSON Response -> React State -> UI Re-render.</p>
+<p>Student Apply: Click Apply -> POST /api/applications {companyId} + JWT -> Backend checks duplicate, creates Application status Applied -> Save Atlas. Admin Select: Click Select -> PUT /api/applications/:id {status: Selected} + admin JWT -> Verify admin role, updates status -> Save. Student Checks: GET /api/applications/my + JWT -> Finds where studentId = userId, populate company, returns list -> Shows status badges.</p>
+
+<h2 id="db">DATABASE DESIGN - ANSWERS VIVA</h2>
+<table>
+<tr><th>Collection</th><th>Fields</th><th>Purpose</th></tr>
+<tr><td>Users (User.js)</td><td>_id, name, email (unique), password (bcrypt hash), role (student/admin), department</td><td>Auth, profile, role check</td></tr>
+<tr><td>Companies (Company.js)</td><td>_id, companyName, role, package, eligibility, location, description, deadline, postedBy ref User</td><td>Job postings displayed as cards</td></tr>
+<tr><td><b>Applications (CORE)</b></td><td>_id, studentId ref User, companyId ref Company, <b>status enum [Applied, Selected, Rejected] default Applied</b></td><td><b>YES shows Selected/Rejected! Apply -> Applied, Select -> Selected Green, Reject -> Rejected Red, Student sees real-time</b></td></tr>
+</table>
+<p><b>Key Answer:</b> Does project show if selected/rejected? <span class="badge green">YES - SELECTED</span> <span class="badge red">YES - REJECTED</span> via status field with color coding.</p>
+
+<h2 id="execution">EXECUTION STEPS</h2>
+<div class="card">
+<b>Step 1 - Open Live Link:</b> Input URL https://college-placement-management-one.vercel.app -> Output: Login page loads - Production live<br><br>
+<b>Step 2 - Register:</b> Input Name, Email, Password, Department -> Click Register. Execution: POST /api/auth/register -> bcrypt hash -> Save to Atlas Users -> Success. Output: Account created<br><br>
+<b>Step 3 - Login:</b> Input Email, Password -> Click Login. Execution: POST /api/auth/login -> Find user -> Compare bcrypt -> Generate JWT token -> Return token. Output: Token stored in localStorage, redirect to Dashboard<br><br>
+<b>Step 4 - View Jobs & Apply (Student):</b> Input Click Apply button. Execution: GET /api/companies -> Display cards, POST /api/applications {companyId} + JWT -> Check duplicate, Create Application status Applied -> Save Atlas. Output: Applied Successfully<br><br>
+<b>Step 5 - Update Status (Admin) - CRITICAL:</b> Input Admin login, View All Applications, Click Select or Reject. Execution: GET /api/applications/all + admin JWT, PUT /api/applications/:id {status: Selected} + admin JWT -> Verify admin role, Update status field Applied to Selected/Rejected -> Save Atlas. Output: Admin table status changes, Student My Applications shows Green Selected or Red Rejected on refresh<br><br>
+<b>Step 6 - Deployment Execution:</b> GitHub push main -> Vercel auto-detects -> npm install -> npm run build (Vite) -> Build Successful -> Deploy Production -> Live at link. MongoDB Atlas: Cluster connected, Collections verified
+</div>
+
+<h2 id="input">INPUT DESIGN</h2>
+<table>
+<tr><th>Module</th><th>Input Fields</th><th>Validation</th><th>API</th></tr>
+<tr><td>Registration</td><td>Name, Email, Password, Department</td><td>Name required, Email valid + unique, Password min 6 chars</td><td>POST /api/auth/register</td></tr>
+<tr><td>Login</td><td>Email, Password</td><td>Email required, Password required, Check exists + bcrypt compare</td><td>POST /api/auth/login</td></tr>
+<tr><td>Add Company (Admin)</td><td>companyName, role, package, eligibility, location, description, deadline</td><td>All required, deadline future, Admin role check</td><td>POST /api/companies</td></tr>
+<tr><td>Apply Job (Student)</td><td>companyId (from Apply click)</td><td>JWT required, Check duplicate</td><td>POST /api/applications</td></tr>
+<tr><td>Update Status (Admin)</td><td>Application id + status (Selected/Rejected) from button</td><td>JWT + Admin role, Status enum check</td><td>PUT /api/applications/:id</td></tr>
+</table>
+
+<h2 id="output">OUTPUT DESIGN</h2>
+<table>
+<tr><th>Module</th><th>Output Display</th><th>Color</th><th>Data Source</th></tr>
+<tr><td>Student Dashboard</td><td>Company cards grid: companyName, role, package, eligibility, location, deadline, Apply button</td><td>-</td><td>GET /api/companies</td></tr>
+<tr><td>My Applications (MAIN)</td><td>Table: Company, Role, Applied Date, Status badge</td><td><span class="badge yellow">Applied</span> <span class="badge green">Selected</span> <span class="badge red">Rejected</span></td><td>GET /api/applications/my</td></tr>
+<tr><td>Admin Dashboard</td><td>Stats: Total Students, Companies, Applications, Selected, Rejected; All Students table; All Applications with Select/Reject</td><td>Green/Red status</td><td>GET /api/applications/all</td></tr>
+<tr><td>Vercel Deployment</td><td>Production live, Build Successful</td><td>Green Live</td><td>Vercel logs</td></tr>
+</table>
+<p><b>Key Output Proof:</b> My Applications page clearly shows if student is Selected (Green) or Rejected (Red) - Answer to viva question implemented, tested live, working at /my-applications</p>
+
+<h2 id="testing">TESTING - LIVE TESTED</h2>
+<table>
+<tr><th>Test ID</th><th>Action</th><th>Input</th><th>Expected Output</th><th>Result</th></tr>
+<tr><td>T01</td><td>Open live link</td><td>URL https://college-placement-management-one.vercel.app</td><td>Homepage/Login loads</td><td>PASS - Live</td></tr>
+<tr><td>T02</td><td>Empty login</td><td>Click Login empty</td><td>Validation error</td><td>PASS</td></tr>
+<tr><td>T03</td><td>Register student</td><td>Name, Email unique, Password, Dept</td><td>User created Atlas Users</td><td>PASS</td></tr>
+<tr><td>T04</td><td>Login valid</td><td>Email + correct password</td><td>JWT token + redirect Dashboard</td><td>PASS</td></tr>
+<tr><td>T05</td><td>View companies</td><td>Dashboard loads</td><td>Job cards displayed</td><td>PASS</td></tr>
+<tr><td>T06</td><td>Apply job</td><td>Click Apply button</td><td>Application saved status Applied</td><td>PASS</td></tr>
+<tr><td>T07</td><td>Admin Select/Reject</td><td>Admin clicks Select button</td><td>Status updated to Selected, Student sees Green</td><td>PASS - Main</td></tr>
+<tr><td>T08</td><td>Student tries admin route</td><td>Student calls POST /api/companies</td><td>403 Forbidden</td><td>PASS - Security</td></tr>
+<tr><td>T09</td><td>Vercel deployment</td><td>Push to GitHub main</td><td>Build Successful, Production Live</td><td>PASS</td></tr>
+</table>
+<p>All 9 tests PASSED on live deployment.</p>
+
+<h2 id="conclusion">CONCLUSION & LINKS</h2>
+<p>College Placement System demonstrates full-stack MERN web app supporting placement processes. React + Vite + Tailwind provides UI deployed on Vercel at live link, Node/Express provides robust API with JWT + RBAC, MongoDB Atlas provides reliable cloud storage.</p>
+<p><b>Answers viva:</b> "Did project show students if selected or rejected?" <b>YES through Applications status field enum Applied/Selected/Rejected with flow Student Apply -> Applied, Admin Select/Reject -> Selected/Rejected, Student refreshes My Applications -> Sees Green Selected or Red Rejected real-time.</b></p>
+<p><b>Live Links Prove Real Implementation:</b><br>Live Demo: https://college-placement-management-one.vercel.app (Production)<br>GitHub: https://github.com/bindusadhana238-droid/college-placement-management (Public)<br>Vercel: Successful builds, Atlas: Live data. Prove project built, deployed, working.</p>
+<p><b>Submitted By: N. Bindu Sadhana, B.Tech AIML-C, 24D01A66M9, St. Mary's Engineering College, Hyderabad, 2026-2027</b></p>
+<hr>
+<p><em>Documentation with Execution, Input, Output | Generated: 2026-10-10 | For college submission: https://forms.gle/npzd28kejWgLKGj29</em></p>
+</div>
+</body>
+</html>
